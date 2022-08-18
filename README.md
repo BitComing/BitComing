@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @biuperman
+- 👋 Hi, I’m @BitCom
 - 👀 I’m interested in writing.
 - 🌱 I’m currently learning C.
 - 💞️ I’m looking to collaborate on nobody.
