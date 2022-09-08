@@ -1,5 +1,8 @@
-- 👋 Hi, I’m @BitComing
+## 👋 Hi, I’m @BitComing
+- 🧑‍🎓 Student
 
+## Reach me
+- My Blog: (BitComing's Blog)[https://bitcoming.github.io]
 
 <!---
 biuperman/biuperman is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
