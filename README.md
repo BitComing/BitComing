@@ -1,7 +1,8 @@
-## 👋 Hi, I’m @BitComing
+### 👋 Hi, I’m @BitComing
 - 🧑‍🎓 Student
 
-## Reach me
+
+### ✌️ Reach me
 - My Blog: [BitComing's Blog](https://bitcoming.github.io)
 
 <!---
