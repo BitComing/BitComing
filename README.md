@@ -1,4 +1,4 @@
-### 👋 Hi, I’m @BitComing
+### 👋 Hi, I’m @BitComing from China
 - 🧑‍🎓 Student
 
 
