@@ -1,7 +1,6 @@
 ### 👋 Hi, I’m @BitComing from China
 - 🧑‍🎓 Student
 
-
 ### ✌️ Reach me
 - My Blog: [BitComing's Blog](https://bitcoming.github.io)
 - My Email: livov@foxmail.com
