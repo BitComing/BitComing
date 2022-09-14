@@ -8,6 +8,8 @@
 ### Other Info
 ![](https://visitor-badge.glitch.me/badge?page_id=BitComing.readme)
 
+![Visitor Count](https://profile-counter.glitch.me/BitComing/count.svg)
+
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=BitComing&layout=compact)](https://github.com/anuraghazra/github-readme-stats)
 
 ![](https://github-readme-stats.vercel.app/api?username=BitComing)
