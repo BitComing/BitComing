@@ -1,7 +1,6 @@
 ### 👋 Hi, I’m @BitComing from China
-Status：🧑‍🎓 Student
 
-Studying: 
+Skill: 
 ![Python](https://img.shields.io/badge/-Python-pink?style=flat-square&logo=Python) 
 ![JavaScript](https://img.shields.io/badge/-JavaScript-oringe?style=flat-square&logo=javascript)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat-square&logo=typescript&logoColor=white)
@@ -16,7 +15,8 @@ Tool:
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=style=flat-square&logo=linux&logoColor=black)
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)
 
-### ✌️ Reach me
+### 📧 Reach me
+
 - My Blog: [BitComing's Blog](https://bitcoming.github.io)
 - My Email: livov@foxmail.com
 
