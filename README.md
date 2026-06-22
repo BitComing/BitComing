@@ -1,4 +1,4 @@
-Date: 2026/06/22
+Date: 2026/06/22 | Year Progress: 47.40%
 
 ### 👋 Hi, I’m @BitComing from China
 

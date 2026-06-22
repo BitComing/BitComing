@@ -21,8 +21,28 @@ jobs:
         id: update_readme
         shell: bash
         run: |
-          today="$(TZ='Asia/Shanghai' date +'%Y/%m/%d')"
-          sed -i -E "s|^Date: .*|Date: ${today}|" README.md
+          read -r today progress < <(
+            TZ='Asia/Shanghai' python3 - <<'PY'
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+now = datetime.now(ZoneInfo("Asia/Shanghai"))
+year_start = datetime(now.year, 1, 1, tzinfo=now.tzinfo)
+next_year_start = datetime(now.year + 1, 1, 1, tzinfo=now.tzinfo)
+days_in_year = (next_year_start - year_start).days
+progress = now.timetuple().tm_yday / days_in_year * 100
+print(now.strftime("%Y/%m/%d"), f"{progress:.2f}%")
+PY
+          )
+          TZ='Asia/Shanghai' TODAY="$today" PROGRESS="$progress" python3 - <<'PY'
+from pathlib import Path
+import os
+
+readme = Path("README.md")
+lines = readme.read_text(encoding="utf-8").splitlines()
+lines[0] = f"Date: {os.environ['TODAY']} | Year Progress: {os.environ['PROGRESS']}"
+readme.write_text("\n".join(lines) + "\n", encoding="utf-8")
+PY
 
           if git diff --quiet README.md; then
             echo "README date is already up to date."
