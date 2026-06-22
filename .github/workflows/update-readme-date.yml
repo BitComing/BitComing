@@ -23,7 +23,7 @@ jobs:
         run: |
           python3 scripts/update_readme_panel.py
 
-          if git diff --quiet README.md; then
+          if git diff --quiet README.md assets/daily-panel.svg; then
             echo "README daily panel is already up to date."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
@@ -38,6 +38,6 @@ jobs:
           today="$(TZ='Asia/Shanghai' date +'%Y/%m/%d')"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md .github/readme-quotes.txt scripts/update_readme_panel.py
+          git add README.md assets/daily-panel.svg .github/readme-quotes.txt scripts/update_readme_panel.py
           git commit -m "chore: update README daily panel for ${today}"
           git push

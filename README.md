@@ -1,15 +1,7 @@
 <!-- daily-panel:start -->
-```text
-+------------------------------------------+
-| Date      : 2026/06/22 Mon/周一
-| Year      :  47.40% [█████████░░░░░░░░░░░]
-| Month     :  73.33% [███████████████░░░░░]
-| Day       : 173 / 365    Week 26
-| Countdown : 193 days to 2027
-| Focus: Explore
-| Quote     : Build quietly. Surprise loudly.
-+------------------------------------------+
-```
+<p align="center">
+  <img src="./assets/daily-panel.svg" alt="BitComing daily panel" width="860" />
+</p>
 <!-- daily-panel:end -->
 
 ### 👋 Hi, I’m @BitComing from China

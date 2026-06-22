@@ -1,5 +1,6 @@
 import calendar
 from datetime import datetime
+from html import escape
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -12,13 +13,9 @@ def main() -> None:
     days_in_year = (next_year_start - year_start).days
     day_of_year = now.timetuple().tm_yday
     year_progress = day_of_year / days_in_year * 100
-    year_filled = round(year_progress / 5)
-    year_bar = "█" * year_filled + "░" * (20 - year_filled)
     countdown = (next_year_start.date() - now.date()).days
     month_days = calendar.monthrange(now.year, now.month)[1]
     month_progress = now.day / month_days * 100
-    month_filled = round(month_progress / 5)
-    month_bar = "█" * month_filled + "░" * (20 - month_filled)
     iso_week = now.isocalendar().week
     weekday_cn = ["Mon/周一", "Tue/周二", "Wed/周三", "Thu/周四", "Fri/周五", "Sat/周六", "Sun/周日"][
         now.weekday()
@@ -40,21 +37,31 @@ def main() -> None:
     ]
     quote = quotes[(day_of_year - 1) % len(quotes)]
     focus = focus_words[(day_of_year - 1) % len(focus_words)]
+    year_percent = f"{year_progress:.2f}%"
+    month_percent = f"{month_progress:.2f}%"
+
+    svg = build_svg(
+        date_label=f"{now.strftime('%Y/%m/%d')} {weekday_cn}",
+        year_percent=year_percent,
+        month_percent=month_percent,
+        day_label=f"{day_of_year} / {days_in_year}    Week {iso_week}",
+        countdown_label=f"{countdown} days to {next_year_start.year}",
+        focus=focus,
+        quote=quote,
+        year_progress=year_progress,
+        month_progress=month_progress,
+    )
+
+    assets_dir = Path("assets")
+    assets_dir.mkdir(exist_ok=True)
+    (assets_dir / "daily-panel.svg").write_text(svg, encoding="utf-8")
 
     panel = "\n".join(
         [
             "<!-- daily-panel:start -->",
-            "```text",
-            "+------------------------------------------+",
-            f"| Date      : {now.strftime('%Y/%m/%d')} {weekday_cn}",
-            f"| Year      : {year_progress:6.2f}% [{year_bar}]",
-            f"| Month     : {month_progress:6.2f}% [{month_bar}]",
-            f"| Day       : {day_of_year:>3} / {days_in_year}    Week {iso_week}",
-            f"| Countdown : {countdown:>3} days to {next_year_start.year}",
-            f"| {focus}",
-            f"| Quote     : {quote}",
-            "+------------------------------------------+",
-            "```",
+            '<p align="center">',
+            '  <img src="./assets/daily-panel.svg" alt="BitComing daily panel" width="860" />',
+            "</p>",
             "<!-- daily-panel:end -->",
         ]
     )
@@ -72,6 +79,81 @@ def main() -> None:
         content = panel + "\n\n" + content
 
     readme.write_text(content + ("" if content.endswith("\n") else "\n"), encoding="utf-8")
+
+
+def build_svg(
+    *,
+    date_label: str,
+    year_percent: str,
+    month_percent: str,
+    day_label: str,
+    countdown_label: str,
+    focus: str,
+    quote: str,
+    year_progress: float,
+    month_progress: float,
+) -> str:
+    track_width = 350
+    year_width = max(0, min(track_width, round(track_width * year_progress / 100)))
+    month_width = max(0, min(track_width, round(track_width * month_progress / 100)))
+
+    return f"""<svg width="900" height="260" viewBox="0 0 900 260" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">BitComing Daily Panel</title>
+  <desc id="desc">Daily status panel with date, year progress, month progress, countdown and quote.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="900" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="0.55" stop-color="#132238"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="620" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F59E0B"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="accentSoft" x1="0" y1="0" x2="620" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FB7185"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+    <filter id="shadow" x="-20" y="-20" width="940" height="300" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#020617" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="900" height="260" rx="28" fill="url(#bg)"/>
+  <circle cx="810" cy="55" r="88" fill="#38BDF8" fill-opacity="0.12"/>
+  <circle cx="745" cy="200" r="118" fill="#F59E0B" fill-opacity="0.12"/>
+  <rect x="24" y="24" width="852" height="212" rx="22" fill="#0B1120" fill-opacity="0.32" stroke="#FFFFFF" stroke-opacity="0.08"/>
+
+  <text x="42" y="58" fill="#F8FAFC" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="26" font-weight="700">BitComing Daily Panel</text>
+  <text x="42" y="84" fill="#93C5FD" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="13" letter-spacing="1.6">AUTOGENERATED BY GITHUB ACTIONS</text>
+
+  <text x="42" y="120" fill="#E2E8F0" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="15">Date</text>
+  <text x="150" y="120" fill="#FFFFFF" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="15" font-weight="600">{escape(date_label)}</text>
+  <text x="42" y="148" fill="#E2E8F0" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="15">Day</text>
+  <text x="150" y="148" fill="#FFFFFF" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="15" font-weight="600">{escape(day_label)}</text>
+  <text x="42" y="176" fill="#E2E8F0" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="15">Countdown</text>
+  <text x="150" y="176" fill="#FFFFFF" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="15" font-weight="600">{escape(countdown_label)}</text>
+  <text x="42" y="204" fill="#E2E8F0" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="15">Focus</text>
+  <text x="150" y="204" fill="#FDE68A" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="15" font-weight="700">{escape(focus)}</text>
+
+  <text x="420" y="86" fill="#E2E8F0" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="14">Year Progress</text>
+  <text x="770" y="86" text-anchor="end" fill="#FFFFFF" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700">{escape(year_percent)}</text>
+  <rect x="420" y="98" width="350" height="16" rx="8" fill="#1E293B"/>
+  <rect x="420" y="98" width="{year_width}" height="16" rx="8" fill="url(#accent)"/>
+
+  <text x="420" y="140" fill="#E2E8F0" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="14">Month Progress</text>
+  <text x="770" y="140" text-anchor="end" fill="#FFFFFF" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700">{escape(month_percent)}</text>
+  <rect x="420" y="152" width="350" height="16" rx="8" fill="#1E293B"/>
+  <rect x="420" y="152" width="{month_width}" height="16" rx="8" fill="url(#accentSoft)"/>
+
+  <text x="420" y="198" fill="#CBD5E1" font-family="'Segoe UI', 'Microsoft YaHei', sans-serif" font-size="13">Quote of the day</text>
+  <foreignObject x="420" y="208" width="410" height="36">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; font-size: 16px; line-height: 1.35; color: #F8FAFC;">
+      {escape(quote)}
+    </div>
+  </foreignObject>
+</svg>
+"""
 
 
 if __name__ == "__main__":
