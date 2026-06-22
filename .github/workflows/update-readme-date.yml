@@ -15,9 +15,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Update date in README
+        id: update_readme
         shell: bash
         run: |
           today="$(TZ='Asia/Shanghai' date +'%Y/%m/%d')"
@@ -25,10 +26,14 @@ jobs:
 
           if git diff --quiet README.md; then
             echo "README date is already up to date."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
       - name: Commit changes
+        if: steps.update_readme.outputs.changed == 'true'
         shell: bash
         run: |
           today="$(TZ='Asia/Shanghai' date +'%Y/%m/%d')"
