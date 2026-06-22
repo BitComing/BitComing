@@ -1,4 +1,4 @@
-name: Update README Date
+name: Update README Daily Panel
 
 on:
   schedule:
@@ -17,15 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Update date in README
+      - name: Update daily panel in README
         id: update_readme
         shell: bash
         run: |
-          read -r today progress < <(TZ='Asia/Shanghai' python3 -c "from datetime import datetime; from zoneinfo import ZoneInfo; now = datetime.now(ZoneInfo('Asia/Shanghai')); year_start = datetime(now.year, 1, 1, tzinfo=now.tzinfo); next_year_start = datetime(now.year + 1, 1, 1, tzinfo=now.tzinfo); days_in_year = (next_year_start - year_start).days; print(now.strftime('%Y/%m/%d'), f'{now.timetuple().tm_yday / days_in_year * 100:.2f}%')")
-          TODAY="$today" PROGRESS="$progress" python3 -c "from pathlib import Path; import os; readme = Path('README.md'); lines = readme.read_text(encoding='utf-8').splitlines(); lines[0] = f\"Date: {os.environ['TODAY']} | Year Progress: {os.environ['PROGRESS']}\"; readme.write_text('\\n'.join(lines) + '\\n', encoding='utf-8')"
+          python3 scripts/update_readme_panel.py
 
           if git diff --quiet README.md; then
-            echo "README date is already up to date."
+            echo "README daily panel is already up to date."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -39,6 +38,6 @@ jobs:
           today="$(TZ='Asia/Shanghai' date +'%Y/%m/%d')"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "chore: update README date to ${today}"
+          git add README.md .github/readme-quotes.txt scripts/update_readme_panel.py
+          git commit -m "chore: update README daily panel for ${today}"
           git push

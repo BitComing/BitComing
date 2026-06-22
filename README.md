@@ -1,4 +1,12 @@
-Date: 2026/06/22 | Year Progress: 47.40%
+<!-- daily-panel:start -->
+```text
+Date: 2026/06/22 Monday
+Year Progress: 47.40% [█████████░░░░░░░░░░░]
+Day: 173 / 365
+Countdown to 2027: 192 days
+Quote: Learn fast. Build faster.
+```
+<!-- daily-panel:end -->
 
 ### 👋 Hi, I’m @BitComing from China
 
