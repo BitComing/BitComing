@@ -1,10 +1,14 @@
 <!-- daily-panel:start -->
 ```text
-Date: 2026/06/22 Monday
-Year Progress: 47.40% [█████████░░░░░░░░░░░]
-Day: 173 / 365
-Countdown to 2027: 192 days
-Quote: Learn fast. Build faster.
++------------------------------------------+
+| Date      : 2026/06/22 Mon/周一
+| Year      :  47.40% [█████████░░░░░░░░░░░]
+| Month     :  73.33% [███████████████░░░░░]
+| Day       : 173 / 365    Week 26
+| Countdown : 193 days to 2027
+| Focus: Explore
+| Quote     : Build quietly. Surprise loudly.
++------------------------------------------+
 ```
 <!-- daily-panel:end -->
 
