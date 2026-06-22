@@ -2,7 +2,7 @@ name: Update README Daily Panel
 
 on:
   schedule:
-    - cron: "3 0 * * *"
+    - cron: "40 0 * * *"
       timezone: "Asia/Shanghai"
   workflow_dispatch:
 
